@@ -1,0 +1,564 @@
+
+      folder('pipeline/shenzhen-baoan-project') {
+        displayName('深圳保安车场')
+        description('自动生成，不要删除')
+      }
+
+
+
+      pipelineJob('pipeline/shenzhen-baoan-project/pay-trace-core') {
+        displayName('支付服务pay-trace-core')
+        description('支付中心外部请求服务')
+        definition {
+          cps {
+            script("""\
+@Library('jenkinslibs@dev') _
+
+import com.jia54321.jenkins.enums.PipelineType
+
+// 加载流水线
+pipelineLoad(PipelineType.STANDARD_GRADLE, [
+    // ext
+    ext: [ 
+      // 构建文件（build.gradle） 所在路径（需包含末尾 / , 没有可保持空串）
+      gradleBuildFilePath         : 'src/pay-core/',
+      // 子项目名，没有可保持空串
+      gradleSubProjectName        : 'pay-trace-core',
+
+      // 构建过程中的 上传制品的 "制品库" 节点名
+      uploadNodeName              : 'test_node',
+      // 构建过程中的 上传制品的 "制品库" 路径 （根路径-snapshots-项目-服务, 需包含 末尾 /）
+      uploadRootPath              : '/ArtifactRepository/snapshots/shenzhen-baoan-project/pay-trace-core/',
+      // 构建过程中的 上传制品的 "制品库" 路径, 后续命令
+      uploadExecCommand           : 'echo  ----上传制品库 snapshots ----',
+
+      // 部署过程中的 部署制品的 "环境" 节点名
+      deployNodeName              : 'test_node',
+      // 部署过程中的 部署制品的 "环境" 路径
+      deployRootPath              : '/tmp',
+      // 构建过程中的 部署制品的 "环境" 路径, 后续命令
+      deployExecCommand           : 'echo  ----CD:1创建备份 2备份软件 3启停服务----'
+    ],
+    // 下载代码, 并获取gav
+    repo: [
+      [ uses: 'checkout',  with: [  url: 'http://192.168.110.252:9999/fly/tnar_pay.git', branch: 'baoan_from_tpay-core-xwang', credentialsId: 'repo_git_secret' ] ]
+    ],
+    // 推送 robotId
+    notify: [ robotId: '430d0627-748b-4905-96f8-945edcc09b16' ]
+])
+            """.stripIndent())
+          }
+        }
+      }
+
+
+      pipelineJob('pipeline/shenzhen-baoan-project/pay-trade-core') {
+        displayName('支付服务pay-trade-core')
+        description('支付中心外部请求服务')
+        definition {
+          cps {
+            script("""\
+@Library('jenkinslibs@dev') _
+
+import com.jia54321.jenkins.enums.PipelineType
+
+// 加载流水线
+pipelineLoad(PipelineType.STANDARD_GRADLE, [
+    // ext
+    ext: [ 
+      // 构建文件（build.gradle） 所在路径（需包含末尾 / , 没有可保持空串）
+      gradleBuildFilePath         : 'src/pay-core/',
+      // 子项目名，没有可保持空串
+      gradleSubProjectName        : 'pay-trade-core',
+
+      // 构建过程中的 上传制品的 "制品库" 节点名
+      uploadNodeName              : 'test_node',
+      // 构建过程中的 上传制品的 "制品库" 路径 （根路径-snapshots-项目-服务, 需包含 末尾 /）
+      uploadRootPath              : '/ArtifactRepository/snapshots/shenzhen-baoan-project/pay-trade-core/',
+      // 构建过程中的 上传制品的 "制品库" 路径, 后续命令
+      uploadExecCommand           : 'echo  ----上传制品库 snapshots ----',
+
+      // 部署过程中的 部署制品的 "环境" 节点名
+      deployNodeName              : 'test_node',
+      // 部署过程中的 部署制品的 "环境" 路径
+      deployRootPath              : '/tmp',
+      // 构建过程中的 部署制品的 "环境" 路径, 后续命令
+      deployExecCommand           : 'echo  ----CD:1创建备份 2备份软件 3启停服务----'
+    ],
+    // 下载代码, 并获取gav
+    repo: [
+      [ uses: 'checkout',  with: [  url: 'http://192.168.110.252:9999/fly/tnar_pay.git', branch: 'baoan_from_tpay-core-xwang', credentialsId: 'repo_git_secret' ] ]
+    ],
+    // 推送 robotId
+    notify: [ robotId: '430d0627-748b-4905-96f8-945edcc09b16' ]
+])
+            """.stripIndent())
+          }
+        }
+      }
+
+      pipelineJob('pipeline/shenzhen-baoan-project/park-service') {
+        displayName('平台查询三方服务park-service')
+        description('分组会员服务，平台数据监控，财务管理，运营管理模块查询')
+        definition {
+          cps {
+            script("""\
+@Library('jenkinslibs@dev') _
+
+import com.jia54321.jenkins.enums.PipelineType
+
+// 加载流水线
+pipelineLoad(PipelineType.STANDARD_GRADLE, [
+    // ext
+    ext: [ 
+      // 构建文件（build.gradle） 所在路径（需包含末尾 / , 没有可保持空串）
+      gradleBuildFilePath         : 'member_group/',
+      // 子项目名，没有可保持空串
+      gradleSubProjectName        : 'park-service',
+
+      // 构建过程中的 上传制品的 "制品库" 节点名
+      uploadNodeName              : 'test_node',
+      // 构建过程中的 上传制品的 "制品库" 路径 （根路径-snapshots-项目-服务, 需包含 末尾 /）
+      uploadRootPath              : '/ArtifactRepository/snapshots/shenzhen-baoan-project/park-service/',
+      // 构建过程中的 上传制品的 "制品库" 路径, 后续命令
+      uploadExecCommand           : 'echo  ----上传制品库 snapshots ----',
+
+      // 部署过程中的 部署制品的 "环境" 节点名
+      deployNodeName              : 'test_node',
+      // 部署过程中的 部署制品的 "环境" 路径
+      deployRootPath              : '/tmp',
+      // 构建过程中的 部署制品的 "环境" 路径, 后续命令
+      deployExecCommand           : 'echo  ----CD:1创建备份 2备份软件 3启停服务----'
+    ],
+    // 下载代码, 并获取gav
+    repo: [
+      [ uses: 'checkout',  with: [  url: 'http://192.168.110.252:9999/fly/park-service.git', branch: 'baoan-qa', credentialsId: 'repo_git_secret' ] ]
+    ],
+    // 推送 robotId
+    notify: [ robotId: '430d0627-748b-4905-96f8-945edcc09b16' ]
+])
+            """.stripIndent())
+          }
+        }
+      }
+
+      pipelineJob('pipeline/shenzhen-baoan-project/check_bill') {
+        displayName('支付对账服务check_bill')
+        description('支付渠道对账')
+        definition {
+          cps {
+            script("""\
+
+@Library('jenkinslibs@dev') _
+
+import com.jia54321.jenkins.enums.PipelineType
+
+// 加载流水线
+pipelineLoad(PipelineType.STANDARD_GRADLE, [
+    // ext
+    ext: [ 
+      // 构建文件（build.gradle） 所在路径（需包含末尾 / , 没有可保持空串）
+      gradleBuildFilePath         : '',
+      // 子项目名，没有可保持空串
+      gradleSubProjectName        : '',
+
+      // 构建过程中的 上传制品的 "制品库" 节点名
+      uploadNodeName              : 'test_node',
+      // 构建过程中的 上传制品的 "制品库" 路径 （根路径-snapshots-项目-服务, 需包含 末尾 /）
+      uploadRootPath              : '/ArtifactRepository/snapshots/shenzhen-baoan-project/check_bill/',
+      // 构建过程中的 上传制品的 "制品库" 路径, 后续命令
+      uploadExecCommand           : 'echo  ----上传制品库 snapshots ----',
+
+      // 部署过程中的 部署制品的 "环境" 节点名
+      deployNodeName              : 'test_node',
+      // 部署过程中的 部署制品的 "环境" 路径
+      deployRootPath              : '/tmp',
+      // 构建过程中的 部署制品的 "环境" 路径, 后续命令
+      deployExecCommand           : 'echo  ----CD:1创建备份 2备份软件 3启停服务----'
+    ],
+    // 下载代码, 并获取gav
+    repo: [
+      [ uses: 'checkout',  with: [  url: 'http://192.168.110.252:9999/fly/check_bill.git', branch: 'baoan-qa', credentialsId: 'repo_git_secret' ] ]
+    ],
+    // 推送 robotId
+    notify: [ robotId: '430d0627-748b-4905-96f8-945edcc09b16' ]
+])
+            """.stripIndent())
+          }
+        }
+      }
+
+      pipelineJob('pipeline/shenzhen-baoan-project/parking') {
+        displayName('预约共享服务parking')
+        description('预约共享相关接口')
+        definition {
+          cps {
+            script("""\
+@Library('jenkinslibs@dev') _
+
+import com.jia54321.jenkins.enums.PipelineType
+
+// 加载流水线
+pipelineLoad(PipelineType.STANDARD_GRADLE, [
+    // ext
+    ext: [ 
+      // 构建文件（build.gradle） 所在路径（需包含末尾 / , 没有可保持空串）
+      gradleBuildFilePath         : '',
+      // 子项目名，没有可保持空串
+      gradleSubProjectName        : 'parking',
+
+      // 构建过程中的 上传制品的 "制品库" 节点名
+      uploadNodeName              : 'test_node',
+      // 构建过程中的 上传制品的 "制品库" 路径 （根路径-snapshots-项目-服务, 需包含 末尾 /）
+      uploadRootPath              : '/ArtifactRepository/snapshots/shenzhen-baoan-project/parking/',
+      // 构建过程中的 上传制品的 "制品库" 路径, 后续命令
+      uploadExecCommand           : 'echo  ----上传制品库 snapshots ----',
+
+      // 部署过程中的 部署制品的 "环境" 节点名
+      deployNodeName              : 'test_node',
+      // 部署过程中的 部署制品的 "环境" 路径
+      deployRootPath              : '/tmp',
+      // 构建过程中的 部署制品的 "环境" 路径, 后续命令
+      deployExecCommand           : 'echo  ----CD:1创建备份 2备份软件 3启停服务----'
+    ],
+    // 下载代码, 并获取gav
+    repo: [
+      [ uses: 'checkout',  with: [  url: 'http://192.168.110.252:9999/fly/fly-reserved-parking.git', branch: 'baoan-qa', credentialsId: 'repo_git_secret' ] ]
+    ],
+    // 推送 robotId
+    notify: [ robotId: '430d0627-748b-4905-96f8-945edcc09b16' ]
+])
+
+            """.stripIndent())
+          }
+        }
+      }
+
+      pipelineJob('pipeline/shenzhen-baoan-project/baoan-monitor') {
+        displayName('大屏监控服务baoan-monitor')
+        description('平台数据监控，大屏')
+        definition {
+          cps {
+            script("""\
+@Library('jenkinslibs@dev') _
+
+import com.jia54321.jenkins.enums.PipelineType
+
+// 加载流水线
+pipelineLoad(PipelineType.STANDARD_GRADLE, [
+    // ext
+    ext: [ 
+      // 构建文件（build.gradle） 所在路径（需包含末尾 / , 没有可保持空串）
+      gradleBuildFilePath         : '',
+      // 子项目名，没有可保持空串
+      gradleSubProjectName        : '',
+
+      // 构建过程中的 上传制品的 "制品库" 节点名
+      uploadNodeName              : 'test_node',
+      // 构建过程中的 上传制品的 "制品库" 路径 （根路径-snapshots-项目-服务, 需包含 末尾 /）
+      uploadRootPath              : '/ArtifactRepository/snapshots/shenzhen-baoan-project/baoan-monitor/',
+      // 构建过程中的 上传制品的 "制品库" 路径, 后续命令
+      uploadExecCommand           : 'echo  ----上传制品库 snapshots ----',
+
+      // 部署过程中的 部署制品的 "环境" 节点名
+      deployNodeName              : 'test_node',
+      // 部署过程中的 部署制品的 "环境" 路径
+      deployRootPath              : '/tmp',
+      // 构建过程中的 部署制品的 "环境" 路径, 后续命令
+      deployExecCommand           : 'echo  ----CD:1创建备份 2备份软件 3启停服务----'
+    ],
+    // 下载代码, 并获取gav
+    repo: [
+      [ uses: 'checkout',  with: [  url: 'http://192.168.110.252:9999/fly/baoan-monitor.git', branch: 'baoan-qa', credentialsId: 'repo_git_secret' ] ]
+    ],
+    // 推送 robotId
+    notify: [ robotId: '430d0627-748b-4905-96f8-945edcc09b16' ]
+])
+
+            """.stripIndent())
+          }
+        }
+      }
+
+
+      pipelineJob('pipeline/shenzhen-baoan-project/pms-cloud') {
+        displayName('pms服务pms-cloud')
+        description('文件上传，白名单，部分c接口封装')
+        definition {
+          cps {
+            script("""\
+              pipeline {
+                agent any
+                stages {
+                  stage ('hello') {
+                    steps {
+                      echo "hello"
+                    }
+                  }
+                }
+              }
+            """.stripIndent())
+          }
+        }
+      }
+
+      pipelineJob('pipeline/shenzhen-baoan-project/sys-admin') {
+        displayName('用户信息，日志查询服务sys-admin')
+        description('手机端登录,获取用户信息，日志查询')
+        definition {
+          cps {
+            script("""\
+@Library('jenkinslibs@dev') _
+
+import com.jia54321.jenkins.enums.PipelineType
+
+// 加载流水线
+pipelineLoad(PipelineType.STANDARD_GRADLE, [
+    // ext
+    ext: [ 
+      // 构建文件（build.gradle） 所在路径（需包含末尾 / , 没有可保持空串）
+      gradleBuildFilePath         : '',
+      // 子项目名，没有可保持空串
+      gradleSubProjectName        : 'sys-admin',
+
+      // 构建过程中的 上传制品的 "制品库" 节点名
+      uploadNodeName              : 'test_node',
+      // 构建过程中的 上传制品的 "制品库" 路径 （根路径-snapshots-项目-服务, 需包含 末尾 /）
+      uploadRootPath              : '/ArtifactRepository/snapshots/shenzhen-baoan-project/sys-admin/',
+      // 构建过程中的 上传制品的 "制品库" 路径, 后续命令
+      uploadExecCommand           : 'echo  ----上传制品库 snapshots ----',
+
+      // 部署过程中的 部署制品的 "环境" 节点名
+      deployNodeName              : 'test_node',
+      // 部署过程中的 部署制品的 "环境" 路径
+      deployRootPath              : '/tmp',
+      // 构建过程中的 部署制品的 "环境" 路径, 后续命令
+      deployExecCommand           : 'echo  ----CD:1创建备份 2备份软件 3启停服务----'
+    ],
+    // 下载代码, 并获取gav
+    repo: [
+      [ uses: 'checkout',  with: [  url: 'http://192.168.110.252:9999/fly/fly-reserved-parking.git', branch: 'baoan-qa', credentialsId: 'repo_git_secret' ] ]
+    ],
+    // 推送 robotId
+    notify: [ robotId: '430d0627-748b-4905-96f8-945edcc09b16' ]
+])
+
+            """.stripIndent())
+          }
+        }
+      } 
+
+
+
+      pipelineJob('pipeline/shenzhen-baoan-project/msf-trade-service') {
+        displayName('发票服务msf-trade-service')
+        description('发票服务，微信/支付宝授权')
+        definition {
+          cps {
+            script("""\
+@Library('jenkinslibs@dev') _
+
+import com.jia54321.jenkins.enums.PipelineType
+
+// 加载流水线
+pipelineLoad(PipelineType.STANDARD_GRADLE, [
+    // ext
+    ext: [ 
+      // 构建文件（build.gradle） 所在路径（需包含末尾 / , 没有可保持空串）
+      gradleBuildFilePath         : '',
+      // 子项目名，没有可保持空串
+      gradleSubProjectName        : 'msf-trade-service',
+
+      // 构建过程中的 上传制品的 "制品库" 节点名
+      uploadNodeName              : 'test_node',
+      // 构建过程中的 上传制品的 "制品库" 路径 （根路径-snapshots-项目-服务, 需包含 末尾 /）
+      uploadRootPath              : '/ArtifactRepository/snapshots/shenzhen-baoan-project/msf-trade-service/',
+      // 构建过程中的 上传制品的 "制品库" 路径, 后续命令
+      uploadExecCommand           : 'echo  ----上传制品库 snapshots ----',
+
+      // 部署过程中的 部署制品的 "环境" 节点名
+      deployNodeName              : 'test_node',
+      // 部署过程中的 部署制品的 "环境" 路径
+      deployRootPath              : '/tmp',
+      // 构建过程中的 部署制品的 "环境" 路径, 后续命令
+      deployExecCommand           : 'echo  ----CD:1创建备份 2备份软件 3启停服务----'
+    ],
+    // 下载代码, 并获取gav
+    repo: [
+      [ uses: 'checkout',  with: [  url: 'http://192.168.110.252:9999/fly/msf-trade.git', branch: 'baoan_from_master', credentialsId: 'repo_git_secret' ] ]
+    ],
+    // 推送 robotId
+    notify: [ robotId: '430d0627-748b-4905-96f8-945edcc09b16' ]
+])
+            """.stripIndent())
+          }
+        }
+      } 
+
+      pipelineJob('pipeline/shenzhen-baoan-project/msf-trade-gateway') {
+        displayName('发票服务msf-trade-gateway')
+        description('发票服务，微信/支付宝授权')
+        definition {
+          cps {
+            script("""\
+@Library('jenkinslibs@dev') _
+
+import com.jia54321.jenkins.enums.PipelineType
+
+// 加载流水线
+pipelineLoad(PipelineType.STANDARD_GRADLE, [
+    // ext
+    ext: [ 
+      // 构建文件（build.gradle） 所在路径（需包含末尾 / , 没有可保持空串）
+      gradleBuildFilePath         : '',
+      // 子项目名，没有可保持空串
+      gradleSubProjectName        : 'msf-trade-gateway',
+
+      // 构建过程中的 上传制品的 "制品库" 节点名
+      uploadNodeName              : 'test_node',
+      // 构建过程中的 上传制品的 "制品库" 路径 （根路径-snapshots-项目-服务, 需包含 末尾 /）
+      uploadRootPath              : '/ArtifactRepository/snapshots/shenzhen-baoan-project/msf-trade-gateway/',
+      // 构建过程中的 上传制品的 "制品库" 路径, 后续命令
+      uploadExecCommand           : 'echo  ----上传制品库 snapshots ----',
+
+      // 部署过程中的 部署制品的 "环境" 节点名
+      deployNodeName              : 'test_node',
+      // 部署过程中的 部署制品的 "环境" 路径
+      deployRootPath              : '/tmp',
+      // 构建过程中的 部署制品的 "环境" 路径, 后续命令
+      deployExecCommand           : 'echo  ----CD:1创建备份 2备份软件 3启停服务----'
+    ],
+    // 下载代码, 并获取gav
+    repo: [
+      [ uses: 'checkout',  with: [  url: 'http://192.168.110.252:9999/fly/msf-trade.git', branch: 'baoan_from_master', credentialsId: 'repo_git_secret' ] ]
+    ],
+    // 推送 robotId
+    notify: [ robotId: '430d0627-748b-4905-96f8-945edcc09b16' ]
+])
+            """.stripIndent())
+          }
+        }
+      } 
+
+
+      pipelineJob('pipeline/shenzhen-baoan-project/pms-export-import') {
+        displayName('导入导出服务pms-export-import')
+        description('导入导出excel')
+        definition {
+          cps {
+            script("""\
+              pipeline {
+                agent any
+                stages {
+                  stage ('hello') {
+                    steps {
+                      echo "hello"
+                    }
+                  }
+                }
+              }
+            """.stripIndent())
+          }
+        }
+      } 
+
+      pipelineJob('pipeline/shenzhen-baoan-project/open-api') {
+        displayName('三方对接（三方）服务open-api')
+        description('三方对接（三方）')
+        definition {
+          cps {
+            script("""\
+@Library('jenkinslibs@dev') _
+
+import com.jia54321.jenkins.enums.PipelineType
+
+// 加载流水线
+pipelineLoad(PipelineType.STANDARD_GRADLE, [
+    // ext
+    ext: [ 
+      // 构建文件（build.gradle） 所在路径（需包含末尾 / , 没有可保持空串）
+      gradleBuildFilePath         : '',
+      // 子项目名，没有可保持空串
+      gradleSubProjectName        : 'open-api',
+
+      // 构建过程中的 上传制品的 "制品库" 节点名
+      uploadNodeName              : 'test_node',
+      // 构建过程中的 上传制品的 "制品库" 路径 （根路径-snapshots-项目-服务, 需包含 末尾 /）
+      uploadRootPath              : '/ArtifactRepository/snapshots/shenzhen-baoan-project/open-api/',
+      // 构建过程中的 上传制品的 "制品库" 路径, 后续命令
+      uploadExecCommand           : 'echo  ----上传制品库 snapshots ----',
+
+      // 部署过程中的 部署制品的 "环境" 节点名
+      deployNodeName              : 'test_node',
+      // 部署过程中的 部署制品的 "环境" 路径
+      deployRootPath              : '/tmp',
+      // 构建过程中的 部署制品的 "环境" 路径, 后续命令
+      deployExecCommand           : 'echo  ----CD:1创建备份 2备份软件 3启停服务----'
+    ],
+    // 下载代码, 并获取gav
+    repo: [
+      [ uses: 'checkout',  with: [  url: 'http://192.168.110.252:9999/fly/fly-reserved-parking.git', branch: 'baoan-qa', credentialsId: 'repo_git_secret' ] ]
+    ],
+    // 推送 robotId
+    notify: [ robotId: '430d0627-748b-4905-96f8-945edcc09b16' ]
+])
+
+            """.stripIndent())
+          }
+        }
+      } 
+
+
+      pipelineJob('pipeline/shenzhen-baoan-project/msf-message') {
+        displayName('消息中心（车道端消息中转）服务msf-message')
+        description('消息中心（车道端消息中转）')
+        definition {
+          cps {
+            script("""\
+@Library('jenkinslibs@dev') _
+
+import com.jia54321.jenkins.enums.PipelineType
+
+// 加载流水线
+pipelineLoad(PipelineType.STANDARD_GRADLE, [
+    // ext
+    ext: [ 
+      // 构建文件（build.gradle） 所在路径（需包含末尾 / , 没有可保持空串）
+      gradleBuildFilePath         : '',
+      // 子项目名，没有可保持空串
+      gradleSubProjectName        : 'msf-message',
+
+      // 构建过程中的 上传制品的 "制品库" 节点名
+      uploadNodeName              : 'test_node',
+      // 构建过程中的 上传制品的 "制品库" 路径 （根路径-snapshots-项目-服务, 需包含 末尾 /）
+      uploadRootPath              : '/ArtifactRepository/snapshots/shenzhen-baoan-project/msf-message/',
+      // 构建过程中的 上传制品的 "制品库" 路径, 后续命令
+      uploadExecCommand           : 'echo  ----上传制品库 snapshots ----',
+
+      // 部署过程中的 部署制品的 "环境" 节点名
+      deployNodeName              : 'test_node',
+      // 部署过程中的 部署制品的 "环境" 路径
+      deployRootPath              : '/tmp',
+      // 构建过程中的 部署制品的 "环境" 路径, 后续命令
+      deployExecCommand           : 'echo  ----CD:1创建备份 2备份软件 3启停服务----'
+    ],
+    // 下载代码, 并获取gav
+    repo: [
+      [ uses: 'checkout',  with: [  url: 'http://192.168.110.252:9999/fly/msf-message-center.git', branch: 'baoan-qa', credentialsId: 'repo_git_secret' ] ]
+    ],
+    // 推送 robotId
+    notify: [ robotId: '430d0627-748b-4905-96f8-945edcc09b16' ]
+])
+            """.stripIndent())
+          }
+        }
+      } 
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,51 @@
+#
+repo: 
+  - uses: checkout
+    with:
+      # git库位置
+      url: ''
+      # 分支
+      branch: 'master'
+      # 凭证
+      credentialsId: 'repo_git_secret'
+      # Checks out the source code from SubversionSCM, GitSCM repositories
+      scmClass: 'GitSCM'
+  #   
+  - uses: gav
+    with:
+      run: |
+        echo groupId='org.test' && echo artifactId='app' && echo version='1.0.0' 
+      # run: |
+      #   gradle -b build.gradle :meta -q
+      # run: |
+      #   echo -e `mvn -f pom.xml -Dexec.executable='echo' -Dexec.args='name=${project.name}\\ngroupId=${project.groupId}\\nartifactId=${project.artifactId}\\nversion=${project.version}' --non-recursive exec:exec -q` 
+      
+      # 自动覆盖
+      groupId: 'org.test'
+      artifactId: 'app'
+      version: '1.0.0' 
+
+#
+build: 
+  - run: "echo ok1"
+  - uses: archiveArtifacts
+    with:
+      artifacts: "**/build/libs/*.jar"
+
+deploy:
+  - uses: sshPublisher
+    with:
+      # 配置定义了 SSH 服务器的连接属性和基本目录
+      configName: test_node
+      execCommand: |
+        echo  ----创建备份----
+        echo  ----备份软件----
+        echo  ----启停服务----
+      remoteDirectory: /tmp
+      removePrefix: build/libs/
+      sourceFiles: build/libs/*.jar
+
+notify:
+  # robotId
+  robotId: '430d0627-748b-4905-96f8-945edcc09b16'
+
